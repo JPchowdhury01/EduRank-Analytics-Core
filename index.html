@@ -1,602 +1,1535 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EduRank Premium Analytics Suite</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
     <style>
-        :root {
-            --bg: #f4f6f9;
-            --card-bg: #ffffff;
-            --text: #333333;
-            --text-secondary: #777777;
-            --border: #dddddd;
-            --primary: #4CAF50;
-            --primary-hover: #45a049;
-            --danger: #ff4d4d;
-            --danger-hover: #e03333;
-            --accent: #2196F3;
-            --header-bg: #ffffff;
-        }
+      :root {
+        --bg: #f4f6f9;
+        --card-bg: #ffffff;
+        --text: #333333;
+        --text-secondary: #777777;
+        --border: #dddddd;
+        --primary: #4caf50;
+        --primary-hover: #45a049;
+        --danger: #ff4d4d;
+        --danger-hover: #e03333;
+        --accent: #2196f3;
+        --header-bg: #ffffff;
+      }
 
-        [data-theme="dark"] {
-            --bg: #121214;
-            --card-bg: #1a1a1e;
-            --text: #f5f5f7;
-            --text-secondary: #aaaaaa;
-            --border: #2d2d34;
-            --primary: #66bb6a;
-            --primary-hover: #4caf50;
-            --header-bg: #1a1a1e;
-        }
+      [data-theme="dark"] {
+        --bg: #121214;
+        --card-bg: #1a1a1e;
+        --text: #f5f5f7;
+        --text-secondary: #aaaaaa;
+        --border: #2d2d34;
+        --primary: #66bb6a;
+        --primary-hover: #4caf50;
+        --header-bg: #1a1a1e;
+      }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg);
-            margin: 0;
-            padding: 0;
-            color: var(--text);
-            transition: background 0.3s, color 0.3s;
-        }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--bg);
+        margin: 0;
+        padding: 0;
+        color: var(--text);
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
 
-        /* --- Auth screen --- */
-        #authScreen {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #2E7D32 0%, #111111 100%);
-        }
+      /* --- Auth screen --- */
+      #authScreen {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #2e7d32 0%, #111111 100%);
+      }
 
-        .login-card {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
+      .login-card {
+        background: var(--card-bg);
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
 
-        .login-card h2 {
-            margin-bottom: 25px;
-            color: var(--primary);
-        }
+      .login-card h2 {
+        margin-bottom: 25px;
+        color: var(--primary);
+      }
 
-        .input-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
+      .input-group {
+        margin-bottom: 20px;
+        position: relative;
+      }
 
-        .input-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-        }
+      .input-group i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+      }
 
-        .input-group input {
-            width: 100%;
-            padding: 12px 12px 12px 40px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 16px;
-            outline: none;
-        }
+      .input-group input {
+        width: 100%;
+        padding: 12px 12px 12px 40px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 16px;
+        outline: none;
+      }
 
-        /* --- Dashboard UI --- */
-        #dashboardScreen { display: none; }
+      /* --- Dashboard UI --- */
+      #dashboardScreen {
+        display: none;
+      }
 
-        header {
-            background: var(--header-bg);
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
+      header {
+        background: var(--header-bg);
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
 
-        header h1 { margin: 0; font-size: 22px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+      header h1 {
+        margin: 0;
+        font-size: 22px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-        .header-actions { display: flex; align-items: center; gap: 20px; }
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
 
+      .container {
+        max-width: 1300px;
+        margin: 30px auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      @media (min-width: 1024px) {
         .container {
-            max-width: 1300px;
-            margin: 30px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
+          grid-template-columns: 1.1fr 0.9fr;
         }
-
-        @media (min-width: 1024px) {
-            .container { grid-template-columns: 1.1fr 0.9fr; }
-            .full-width { grid-column: span 2; }
+        .full-width {
+          grid-column: span 2;
         }
+      }
 
-        /* --- Cards & Metrics --- */
-        .card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 14px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-            transition: transform 0.2s;
+      /* --- Cards & Metrics --- */
+      .card {
+        background: var(--card-bg);
+        padding: 25px;
+        border-radius: 14px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        transition: transform 0.2s;
+      }
+
+      .card h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 18px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .metrics-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+
+      .metric-box {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 4px solid var(--primary);
+      }
+      .metric-box.blue {
+        border-bottom-color: var(--accent);
+      }
+      .metric-box.purple {
+        border-bottom-color: #9c27b0;
+      }
+
+      .metric-box h3 {
+        margin: 0;
+        font-size: 13px;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .metric-box p {
+        margin: 5px 0 0 0;
+        font-size: 28px;
+        font-weight: 700;
+      }
+      .metric-box i {
+        font-size: 28px;
+        color: var(--text-secondary);
+        opacity: 0.4;
+      }
+
+      /* --- Tables --- */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 14px 10px;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+      }
+      th {
+        background: rgba(0, 0, 0, 0.02);
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-size: 14px;
+      }
+      [data-theme="dark"] th {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      table input {
+        width: 85%;
+        padding: 8px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        border-radius: 6px;
+        text-align: center;
+      }
+
+      .clickable-row {
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .clickable-row:hover {
+        background: rgba(0, 0, 0, 0.03);
+      }
+      [data-theme="dark"] .clickable-row:hover {
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      /* --- Buttons & Utilities --- */
+      button {
+        padding: 10px 18px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+      }
+      button:hover {
+        background: var(--primary-hover);
+      }
+      .btn-danger {
+        background: var(--danger);
+      }
+      .btn-danger:hover {
+        background: var(--danger-hover);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .btn-outline:hover {
+        background: rgba(0, 0, 0, 0.04);
+      }
+      [data-theme="dark"] .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .action-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .flex-gap {
+        display: flex;
+        gap: 10px;
+      }
+
+      .rank-badge {
+        display: inline-block;
+        width: 26px;
+        height: 26px;
+        line-height: 26px;
+        border-radius: 50%;
+        font-weight: bold;
+        color: white;
+        background: #7f8c8d;
+        font-size: 12px;
+      }
+      .rank-1 {
+        background: #ffdf00;
+        color: #333;
+        box-shadow: 0 0 8px rgba(255, 223, 0, 0.4);
+      }
+      .rank-2 {
+        background: #b4b4b4;
+        color: #333;
+      }
+      .rank-3 {
+        background: #df73ff;
+      }
+
+      /* --- Charts Grid --- */
+      .charts-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 20px;
+      }
+      @media (max-width: 768px) {
+        .charts-grid {
+          grid-template-columns: 1fr;
         }
+      }
+      .chart-wrapper {
+        position: relative;
+        height: 260px;
+        width: 100%;
+      }
 
-        .card h2 {
-            margin-top: 0; margin-bottom: 20px; font-size: 18px;
-            border-bottom: 1px solid var(--border); padding-bottom: 12px;
-            display: flex; align-items: center; gap: 10px;
+      /* --- Modal Window --- */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+      }
+      .modal-content {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 450px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(30px);
+          opacity: 0;
         }
-
-        .metrics-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
+        to {
+          transform: translateY(0);
+          opacity: 1;
         }
+      }
 
-        .metric-box {
-            background: var(--card-bg);
-            padding: 20px; border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            display: flex; align-items: center; justify-content: space-between;
-            border-bottom: 4px solid var(--primary);
-        }
-        .metric-box.blue { border-bottom-color: var(--accent); }
-        .metric-box.purple { border-bottom-color: #9c27b0; }
-
-        .metric-box h3 { margin: 0; font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
-        .metric-box p { margin: 5px 0 0 0; font-size: 28px; font-weight: 700; }
-        .metric-box i { font-size: 28px; color: var(--text-secondary); opacity: 0.4; }
-
-        /* --- Tables --- */
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 14px 10px; text-align: center; border-bottom: 1px solid var(--border); }
-        th { background: rgba(0,0,0,0.02); color: var(--text-secondary); font-weight: 600; font-size: 14px; }
-        [data-theme="dark"] th { background: rgba(255,255,255,0.02); }
-
-        table input {
-            width: 85%; padding: 8px; border: 1px solid var(--border);
-            background: var(--bg); color: var(--text); border-radius: 6px; text-align: center;
-        }
-
-        .clickable-row { cursor: pointer; transition: background 0.2s; }
-        .clickable-row:hover { background: rgba(0,0,0,0.03); }
-        [data-theme="dark"] .clickable-row:hover { background: rgba(255,255,255,0.04); }
-
-        /* --- Buttons & Utilities --- */
-        button {
-            padding: 10px 18px; background: var(--primary); color: white;
-            border: none; border-radius: 8px; cursor: pointer; font-weight: 500;
-            display: inline-flex; align-items: center; gap: 8px; font-size: 14px;
-        }
-        button:hover { background: var(--primary-hover); }
-        .btn-danger { background: var(--danger); }
-        .btn-danger:hover { background: var(--danger-hover); }
-        .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
-        .btn-outline:hover { background: rgba(0,0,0,0.04); }
-        [data-theme="dark"] .btn-outline:hover { background: rgba(255,255,255,0.05); }
-
-        .action-row { display: flex; justify-content: space-between; margin-top: 15px; gap: 10px; flex-wrap: wrap; }
-        .flex-gap { display: flex; gap: 10px; }
-
-        .rank-badge {
-            display: inline-block; width: 26px; height: 26px; line-height: 26px;
-            border-radius: 50%; font-weight: bold; color: white; background: #7f8c8d; font-size: 12px;
-        }
-        .rank-1 { background: #ffdf00; color: #333; box-shadow: 0 0 8px rgba(255,223,0,0.4); }
-        .rank-2 { background: #b4b4b4; color: #333; }
-        .rank-3 { background: #df73ff; }
-
-        /* --- Charts Grid --- */
-        .charts-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; }
-        @media (max-width: 768px) { .charts-grid { grid-template-columns: 1fr; } }
-        .chart-wrapper { position: relative; height: 260px; width: 100%; }
-
-        /* --- Modal Window --- */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 100;
-        }
-        .modal-content {
-            background: var(--card-bg); padding: 30px; border-radius: 16px;
-            width: 90%; max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center;
-            animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        .report-card-badge {
-            font-size: 48px; font-weight: 800; color: var(--primary); margin: 15px 0;
-        }
+      .report-card-badge {
+        font-size: 48px;
+        font-weight: 800;
+        color: var(--primary);
+        margin: 15px 0;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div id="authScreen">
-        <div class="login-card">
-            <h2><i class="fa-solid fa-graduation-cap"></i> EduRank Workspace</h2>
-            <form id="loginForm" onsubmit="return handleLogin(event)">
-                <div class="input-group">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" id="username" placeholder="Any Username" required>
-                </div>
-                <div class="input-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password" placeholder="Any Password" required>
-                </div>
-                <button type="submit" style="width: 100%; justify-content: center; padding: 12px;">
-                    Enter Dashboard <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </form>
-        </div>
+      <div class="login-card">
+        <h2><i class="fa-solid fa-graduation-cap"></i> EduRank Workspace</h2>
+        <form id="loginForm" onsubmit="return handleLogin(event);">
+          <div class="input-group">
+            <i class="fa-solid fa-user"></i>
+            <input
+              type="text"
+              id="username"
+              placeholder="Any Username"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input
+              type="password"
+              id="password"
+              placeholder="Any Password"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            style="width: 100%; justify-content: center; padding: 12px"
+          >
+            Enter Dashboard <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+      </div>
     </div>
 
     <div id="dashboardScreen">
-        <header>
-            <h1><i class="fa-solid fa-layer-group"></i> EduRank Analytics Core</h1>
-            <div class="header-actions">
-                <button onclick="toggleTheme()" class="btn-outline" style="padding: 8px 12px;">
-                    <i id="themeIcon" class="fa-solid fa-moon"></i>
-                </button>
-                <span id="userDisplay">Profile: <b id="displayAdminName">User</b></span>
-                <button onclick="handleLogout()" class="btn-outline"><i class="fa-solid fa-power-off"></i> Logout</button>
-            </div>
-        </header>
-
-        <div class="container">
-            
-            <div class="full-width metrics-summary">
-                <div class="metric-box">
-                    <div>
-                        <h3>Enrolled Cohort</h3>
-                        <p id="metricTotal">0</p>
-                    </div>
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <div class="metric-box blue">
-                    <div>
-                        <h3>Class Progress Mean</h3>
-                        <p id="metricAverage">0.0</p>
-                    </div>
-                    <i class="fa-solid fa-chart-pie"></i>
-                </div>
-                <div class="metric-box purple">
-                    <div>
-                        <h3>Peak Score</h3>
-                        <p id="metricHigh">0</p>
-                    </div>
-                    <i class="fa-solid fa-trophy"></i>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2><i class="fa-solid fa-table-list"></i> Registry Management Base</h2>
-                <table id="studentTable">
-                    <thead>
-                        <tr>
-                            <th>Student Full Name</th>
-                            <th>Marks (0-100)</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="studentTableBody">
-                        </tbody>
-                </table>
-                <div class="action-row">
-                    <div class="flex-gap">
-                        <button onclick="addRow()" class="btn-outline"><i class="fa-solid fa-plus"></i> Add Student</button>
-                        <button onclick="triggerCSVGeneration()" class="btn-outline"><i class="fa-solid fa-file-export"></i> CSV Export</button>
-                    </div>
-                    <button onclick="rankStudents()"><i class="fa-solid fa-wand-magic-sparkles"></i> Compute Analytics</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2><i class="fa-solid fa-chart-line"></i> Dynamic Analytical Distribution</h2>
-                <div class="charts-grid">
-                    <div>
-                        <div class="chart-wrapper">
-                            <canvas id="marksChart"></canvas>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="chart-wrapper">
-                            <canvas id="distributionChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card full-width">
-                <h2><i class="fa-solid fa-medal"></i> Master Ranking Index <span style="font-size:12px; font-weight:normal; color:var(--text-secondary); margin-left:10px;">(Click any row to display individual student summary reports)</span></h2>
-                <table id="resultTable">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Student Account Node</th>
-                            <th>Score Metrology</th>
-                            <th>Status Band</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultTableBody">
-                        <tr>
-                            <td colspan="4" style="color: var(--text-secondary); padding: 30px;">Hydrate registry record fields to run compilation passes.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      <header>
+        <h1><i class="fa-solid fa-layer-group"></i> EduRank Analytics Core</h1>
+        <div class="header-actions">
+          <button
+            onclick="toggleTheme()"
+            class="btn-outline"
+            style="padding: 8px 12px"
+          >
+            <i id="themeIcon" class="fa-solid fa-moon"></i>
+          </button>
+          <span id="userDisplay"
+            >Profile: <b id="displayAdminName">User</b></span
+          >
+          <button onclick="handleLogout()" class="btn-outline">
+            <i class="fa-solid fa-power-off"></i> Logout
+          </button>
         </div>
+      </header>
+
+      <div class="container">
+        <div class="full-width metrics-summary">
+          <div class="metric-box">
+            <div>
+              <h3>Enrolled Cohort</h3>
+              <p id="metricTotal">0</p>
+            </div>
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div class="metric-box blue">
+            <div>
+              <h3>Class Progress Mean</h3>
+              <p id="metricAverage">0.0</p>
+            </div>
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+          <div class="metric-box purple">
+            <div>
+              <h3>Peak Score</h3>
+              <p id="metricHigh">0</p>
+            </div>
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <div class="metric-box" style="border-bottom-color: #ffc107">
+            <div>
+              <h3>Median Score</h3>
+              <p id="metricMedian">0.0</p>
+            </div>
+            <i class="fa-solid fa-line-chart"></i>
+          </div>
+          <div class="metric-box" style="border-bottom-color: #e91e63">
+            <div>
+              <h3>Std Deviation</h3>
+              <p id="metricStdDev">0.0</p>
+            </div>
+            <i class="fa-solid fa-chart-column"></i>
+          </div>
+          <div class="metric-box" style="border-bottom-color: #00bcd4">
+            <div>
+              <h3>Pass Rate</h3>
+              <p id="metricPassRate">0%</p>
+            </div>
+            <i class="fa-solid fa-percent"></i>
+          </div>
+        </div>
+        <div class="card">
+          <h2><i class="fa-solid fa-users"></i> Student Roster Management</h2>
+          <div style="display: flex; gap: 10px; margin-bottom: 15px">
+            <input
+              type="text"
+              id="searchBox"
+              placeholder="Search student by name..."
+              style="
+                flex: 1;
+                padding: 10px 15px;
+                border: 1px solid var(--border);
+                background: var(--bg);
+                color: var(--text);
+                border-radius: 6px;
+              "
+            />
+            <button
+              onclick="clearSearch()"
+              class="btn-outline"
+              style="padding: 10px 12px"
+            >
+              Clear
+            </button>
+          </div>
+          <table id="studentTable" style="font-size: 13px">
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Exam (0-50)</th>
+                <th>Assignment (0-20)</th>
+                <th>Internal (0-20)</th>
+                <th>Activity (0-10)</th>
+                <th>Attendance %</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody"></tbody>
+          </table>
+          <div class="action-row">
+            <div class="flex-gap">
+              <button onclick="addRow()" class="btn-outline">
+                <i class="fa-solid fa-plus"></i> Add Student
+              </button>
+              <button onclick="triggerCSVGeneration()" class="btn-outline">
+                <i class="fa-solid fa-file-export"></i> PDF Export with Charts
+              </button>
+              <button onclick="importCSV()" class="btn-outline">
+                <i class="fa-solid fa-file-import"></i> CSV Import
+              </button>
+              <button onclick="clearAllData()" class="btn-danger">
+                <i class="fa-solid fa-trash"></i> Clear All
+              </button>
+            </div>
+            <button onclick="rankStudents()">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Compute Analytics
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>
+            <i class="fa-solid fa-chart-line"></i> Dynamic Analytical
+            Distribution
+          </h2>
+          <div class="charts-grid">
+            <div>
+              <div class="chart-wrapper">
+                <canvas id="marksChart"></canvas>
+              </div>
+            </div>
+            <div>
+              <div class="chart-wrapper">
+                <canvas id="distributionChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card full-width">
+          <h2>
+            <i class="fa-solid fa-medal"></i> Master Ranking Index
+            <span
+              style="
+                font-size: 12px;
+                font-weight: normal;
+                color: var(--text-secondary);
+                margin-left: 10px;
+              "
+              >(Click any row to display individual student summary
+              reports)</span
+            >
+          </h2>
+          <table id="resultTable" style="font-size: 13px">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Student Name</th>
+                <th>Exam</th>
+                <th>Assignment</th>
+                <th>Internal</th>
+                <th>Activity</th>
+                <th>Total</th>
+                <th>Percentile</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="resultTableBody">
+              <tr>
+                <td
+                  colspan="9"
+                  style="color: var(--text-secondary); padding: 30px"
+                >
+                  Hydrate registry record fields to run compilation passes.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <div id="reportModal" class="modal" onclick="closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h3 style="margin-top:0; color:var(--text-secondary);">OFFICIAL REPORT SUMMARY</h3>
-            <h1 id="modalName" style="margin:5px 0 0 0;">Student Name</h1>
-            <div id="modalGrade" class="report-card-badge">A</div>
-            <p id="modalMetrics" style="font-size:16px; font-weight:500;">Scored 95/100 • Rank #1</p>
-            <blockquote id="modalComment" style="font-style:italic; color:var(--text-secondary); margin: 20px 0; border-left:3px solid var(--primary); padding-left:15px; text-align:left;">
-                Remark text string dynamically loaded.
-            </blockquote>
-            <button onclick="closeModal()" style="width:100%; justify-content:center;">Close Assessment View</button>
-        </div>
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <h3 style="margin-top: 0; color: var(--text-secondary)">
+          OFFICIAL REPORT SUMMARY
+        </h3>
+        <h1 id="modalName" style="margin: 5px 0 0 0">Student Name</h1>
+        <div id="modalGrade" class="report-card-badge">A</div>
+        <p id="modalMetrics" style="font-size: 16px; font-weight: 500">
+          Scored 95/100 • Rank #1
+        </p>
+        <blockquote
+          id="modalComment"
+          style="
+            font-style: italic;
+            color: var(--text-secondary);
+            margin: 20px 0;
+            border-left: 3px solid var(--primary);
+            padding-left: 15px;
+            text-align: left;
+          "
+        >
+          Remark text string dynamically loaded.
+        </blockquote>
+        <button
+          onclick="closeModal()"
+          style="width: 100%; justify-content: center"
+        >
+          Close Assessment View
+        </button>
+      </div>
     </div>
 
     <script>
-        let marksChartInstance = null;
-        let distChartInstance = null;
+      let marksChartInstance = null;
+      let distChartInstance = null;
 
-        // --- Theme Engine Control ---
-        function toggleTheme() {
-            const body = document.body;
-            const currentTheme = body.getAttribute('data-theme');
-            const icon = document.getElementById('themeIcon');
-            
-            if(currentTheme === 'dark') {
-                body.removeAttribute('data-theme');
-                icon.className = "fa-solid fa-moon";
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                icon.className = "fa-solid fa-sun";
-            }
-            if(marksChartInstance) rankStudents(); // Refresh chart styles cleanly
+      // --- Theme Engine Control ---
+      function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute("data-theme");
+        const icon = document.getElementById("themeIcon");
+
+        if (currentTheme === "dark") {
+          body.removeAttribute("data-theme");
+          icon.className = "fa-solid fa-moon";
+        } else {
+          body.setAttribute("data-theme", "dark");
+          icon.className = "fa-solid fa-sun";
+        }
+        if (marksChartInstance) rankStudents(); // Refresh chart styles cleanly
+      }
+
+      // --- Authentication Actions ---
+      function handleLogin(e) {
+        e.preventDefault();
+        const user = document.getElementById("username").value.trim();
+        if (user) {
+          document.getElementById("displayAdminName").innerText = user;
+          document.getElementById("authScreen").style.display = "none";
+          document.getElementById("dashboardScreen").style.display = "block";
+
+          // Load saved data or spawn entry slots on startup
+          const saved = localStorage.getItem("studentData");
+          if (saved && JSON.parse(saved).length > 0) {
+            loadStudentData();
+          } else {
+            addRow();
+            addRow();
+            addRow();
+          }
+          return false;
+        }
+        return false;
+      }
+
+      function handleLogout() {
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("studentTableBody").innerHTML = "";
+        document.getElementById("resultTableBody").innerHTML =
+          `<tr><td colspan="9" style="color:var(--text-secondary); padding:30px;">Hydrate registry record fields to run compilation passes.</td></tr>`;
+
+        document.getElementById("metricTotal").innerText = "0";
+        document.getElementById("metricAverage").innerText = "0.0";
+        document.getElementById("metricHigh").innerText = "0";
+        document.getElementById("metricMedian").innerText = "0.0";
+        document.getElementById("metricStdDev").innerText = "0.0";
+        document.getElementById("metricPassRate").innerText = "0%";
+
+        if (marksChartInstance) {
+          marksChartInstance.destroy();
+          marksChartInstance = null;
+        }
+        if (distChartInstance) {
+          distChartInstance.destroy();
+          distChartInstance = null;
         }
 
-        // --- Authentication Actions ---
-        function handleLogin(e) {
-            e.preventDefault();
-            const user = document.getElementById('username').value.trim();
-            if (user) {
-                document.getElementById('displayAdminName').innerText = user;
-                document.getElementById('authScreen').style.display = 'none';
-                document.getElementById('dashboardScreen').style.display = 'block';
-                
-                // Spawn entry slots on startup
-                addRow(); addRow(); addRow();
-                return false; 
-            }
-            return false;
-        }
+        document.getElementById("dashboardScreen").style.display = "none";
+        document.getElementById("authScreen").style.display = "flex";
+      }
 
-        function handleLogout() {
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('studentTableBody').innerHTML = '';
-            document.getElementById('resultTableBody').innerHTML = `<tr><td colspan="4" style="color:var(--text-secondary); padding:30px;">Hydrate registry record fields to run compilation passes.</td></tr>`;
-            
-            document.getElementById('metricTotal').innerText = '0';
-            document.getElementById('metricAverage').innerText = '0.0';
-            document.getElementById('metricHigh').innerText = '0';
-
-            if (marksChartInstance) { marksChartInstance.destroy(); marksChartInstance = null; }
-            if (distChartInstance) { distChartInstance.destroy(); distChartInstance = null; }
-
-            document.getElementById('dashboardScreen').style.display = 'none';
-            document.getElementById('authScreen').style.display = 'flex';
-        }
-
-        // --- Interactive Data Table Mutation Actions ---
-        function addRow() {
-            const tbody = document.getElementById('studentTableBody');
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><input type="text" placeholder="Student First/Last Name"></td>
-                <td><input type="number" placeholder="Value" min="0" max="100"></td>
+      // --- Interactive Data Table Mutation Actions ---
+      function addRow() {
+        const tbody = document.getElementById("studentTableBody");
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                <td><input type="text" placeholder="Name" style="width:100px" onchange="calculateTotal(this)"></td>
+                <td><input type="number" placeholder="0-50" min="0" max="50" style="width:60px" onchange="calculateTotal(this)"></td>
+                <td><input type="number" placeholder="0-20" min="0" max="20" style="width:60px" onchange="calculateTotal(this)"></td>
+                <td><input type="number" placeholder="0-20" min="0" max="20" style="width:60px" onchange="calculateTotal(this)"></td>
+                <td><input type="number" placeholder="0-10" min="0" max="10" style="width:60px" onchange="calculateTotal(this)"></td>
+                <td><input type="number" placeholder="0-100%" min="0" max="100" style="width:70px" onchange="calculateTotal(this)"></td>
+                <td><span style="font-weight:bold; color:#4CAF50; text-align:center; display:block;">0</span></td>
+                <td><span style="font-size:12px; color:var(--text-secondary);">-</span></td>
                 <td><button class="btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-xmark"></i></button></td>
             `;
-            tbody.appendChild(row);
+        tbody.appendChild(row);
+      }
+
+      function calculateTotal(input) {
+        const row = input.parentNode.parentNode;
+        const inputs = row.getElementsByTagName("input");
+
+        if (inputs.length >= 6) {
+          const exam = parseInt(inputs[1].value) || 0;
+          const assignment = parseInt(inputs[2].value) || 0;
+          const internal = parseInt(inputs[3].value) || 0;
+          const activity = parseInt(inputs[4].value) || 0;
+          const attendance = parseInt(inputs[5].value) || 0;
+
+          const total = exam + assignment + internal + activity;
+          const tds = row.getElementsByTagName("td");
+          tds[6].innerHTML = `<span style="font-weight:bold; color:#4CAF50; text-align:center; display:block;">${total}</span>`;
+
+          // Update status
+          const statusCell = tds[7];
+          const name = inputs[0].value.trim();
+          if (!name) {
+            statusCell.innerHTML =
+              '<span style="color:var(--text-secondary); font-size:12px;">Missing name</span>';
+          } else if (
+            exam === 0 &&
+            assignment === 0 &&
+            internal === 0 &&
+            activity === 0
+          ) {
+            statusCell.innerHTML =
+              '<span style="color:var(--text-secondary); font-size:12px;">Incomplete</span>';
+          } else if (attendance < 75) {
+            statusCell.innerHTML =
+              '<span style="color:var(--danger); font-size:12px;"><i class="fa-solid fa-triangle-exclamation"></i> Low Attendance</span>';
+          } else {
+            statusCell.innerHTML =
+              '<span style="color:var(--primary); font-size:12px;"><i class="fa-solid fa-check"></i> Valid</span>';
+          }
+        }
+      }
+
+      function validateRow(input) {
+        const row = input.parentNode.parentNode;
+        const inputs = row.getElementsByTagName("input");
+        const statusCell = row.getElementsByTagName("td")[2];
+
+        if (inputs.length >= 2) {
+          const name = inputs[0].value.trim();
+          const marks = parseInt(inputs[1].value);
+
+          if (!name) {
+            statusCell.innerHTML =
+              '<span style="color:var(--text-secondary); font-size:12px;">Missing name</span>';
+          } else if (isNaN(marks)) {
+            statusCell.innerHTML =
+              '<span style="color:var(--text-secondary); font-size:12px;">No marks</span>';
+          } else if (marks < 0 || marks > 100) {
+            statusCell.innerHTML =
+              '<span style="color:var(--danger); font-size:12px;"><i class="fa-solid fa-triangle-exclamation"></i> Invalid range</span>';
+          } else {
+            statusCell.innerHTML =
+              '<span style="color:var(--primary); font-size:12px;"><i class="fa-solid fa-check"></i> Valid</span>';
+          }
+        }
+      }
+
+      function deleteRow(btn) {
+        const row = btn.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+      }
+
+      // --- PDF Data Export with Charts ---
+      function triggerCSVGeneration() {
+        const rows = document
+          .getElementById("studentTableBody")
+          .getElementsByTagName("tr");
+        let tableData = [];
+        let count = 0;
+        let maxMark = 0;
+        let topStudent = null;
+
+        for (let i = 0; i < rows.length; i++) {
+          const inputs = rows[i].getElementsByTagName("input");
+          if (inputs.length >= 6) {
+            const name = inputs[0].value.trim();
+            const exam = parseInt(inputs[1].value) || 0;
+            const assignment = parseInt(inputs[2].value) || 0;
+            const internal = parseInt(inputs[3].value) || 0;
+            const activity = parseInt(inputs[4].value) || 0;
+            const attendance = parseInt(inputs[5].value) || 0;
+            const totalMark = exam + assignment + internal + activity;
+
+            if (name && totalMark > 0) {
+              tableData.push({
+                name,
+                exam,
+                assignment,
+                internal,
+                activity,
+                attendance,
+                totalMark,
+              });
+              count++;
+              if (totalMark > maxMark) {
+                maxMark = totalMark;
+                topStudent = name;
+              }
+            }
+          }
         }
 
-        function deleteRow(btn) {
-            const row = btn.parentNode.parentNode;
-            row.parentNode.removeChild(row);
+        if (count === 0) {
+          alert("No valid record fields filled to export.");
+          return;
         }
 
-        // --- CSV Data Export Routine ---
-        function triggerCSVGeneration() {
-            const rows = document.getElementById('studentTableBody').getElementsByTagName('tr');
-            let csvContent = "data:text/csv;charset=utf-8,Student Name,Marks\n";
-            let count = 0;
+        // Create PDF element
+        const element = document.createElement("div");
+        element.style.padding = "20px";
+        element.style.fontFamily = "Arial, sans-serif";
+        element.style.backgroundColor = "#fff";
+        element.style.color = "#333";
 
-            for(let i=0; i<rows.length; i++) {
-                const inputs = rows[i].getElementsByTagName('input');
-                if(inputs.length >= 2) {
-                    const name = inputs[0].value.replace(/,/g, "").trim();
-                    const mark = inputs[1].value;
-                    if(name && mark) { csvContent += `${name},${mark}\n`; count++; }
-                }
-            }
-            if(count === 0) { alert("No valid record fields filled to export."); return; }
-            const encodeUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodeUri);
-            link.setAttribute("download", "Cohort_Metrics_Export.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        // Title
+        const title = document.createElement("h1");
+        title.innerText = "EduRank Student Progress Report";
+        title.style.textAlign = "center";
+        title.style.color = "#4CAF50";
+        title.style.marginBottom = "10px";
+        element.appendChild(title);
+
+        // Timestamp
+        const timestamp = document.createElement("p");
+        timestamp.innerText = `Generated on: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`;
+        timestamp.style.textAlign = "center";
+        timestamp.style.color = "#777";
+        timestamp.style.marginBottom = "30px";
+        element.appendChild(timestamp);
+
+        // ===== STUDENT OF THE YEAR SECTION =====
+        const awardDiv = document.createElement("div");
+        awardDiv.style.backgroundColor = "#FFF8DC";
+        awardDiv.style.border = "3px solid #FFD700";
+        awardDiv.style.borderRadius = "15px";
+        awardDiv.style.padding = "20px";
+        awardDiv.style.textAlign = "center";
+        awardDiv.style.marginBottom = "30px";
+        awardDiv.style.boxShadow = "0 4px 15px rgba(255, 215, 0, 0.4)";
+
+        // Trophy icon
+        const trophy = document.createElement("div");
+        trophy.style.fontSize = "48px";
+        trophy.style.marginBottom = "10px";
+        trophy.innerHTML = "🏆";
+        awardDiv.appendChild(trophy);
+
+        // Award title
+        const awardTitle = document.createElement("h2");
+        awardTitle.innerText = "⭐ STUDENT OF THE YEAR ⭐";
+        awardTitle.style.color = "#FF8C00";
+        awardTitle.style.margin = "10px 0";
+        awardTitle.style.fontSize = "24px";
+        awardTitle.style.fontWeight = "bold";
+        awardDiv.appendChild(awardTitle);
+
+        // Student name
+        const studentName = document.createElement("h3");
+        studentName.innerText = topStudent;
+        studentName.style.color = "#4CAF50";
+        studentName.style.fontSize = "28px";
+        studentName.style.margin = "15px 0";
+        studentName.style.fontStyle = "italic";
+        awardDiv.appendChild(studentName);
+
+        // Appreciation message
+        const appreciation = document.createElement("p");
+        appreciation.innerHTML = `
+          <strong style="font-size: 16px; color: #333;">🎉 Congratulations! 🎉</strong><br><br>
+          <em style="color: #555; font-size: 14px;">
+            Dear ${topStudent},<br><br>
+            We are delighted to recognize you as the <strong>Student of the Year</strong>!<br>
+            Your exceptional performance with a score of <strong>${maxMark}/100</strong> demonstrates
+            outstanding dedication, hard work, and excellence.<br><br>
+            Your achievement serves as an inspiration to your peers and is a testament to your commitment
+            to academic excellence. We are proud of your accomplishments and wish you continued success
+            in all your future endeavors.<br><br>
+            Keep up the amazing work! 🌟
+          </em>
+        `;
+        appreciation.style.margin = "15px 0";
+        appreciation.style.lineHeight = "1.6";
+        awardDiv.appendChild(appreciation);
+
+        element.appendChild(awardDiv);
+
+        // ===== METRICS SECTION =====
+        const metricDiv = document.createElement("div");
+        metricDiv.style.display = "grid";
+        metricDiv.style.gridTemplateColumns = "repeat(3, 1fr)";
+        metricDiv.style.gap = "15px";
+        metricDiv.style.marginBottom = "20px";
+
+        const metrics = [
+          {
+            label: "Total Students",
+            value: document.getElementById("metricTotal").innerText,
+          },
+          {
+            label: "Average Score",
+            value: document.getElementById("metricAverage").innerText,
+          },
+          {
+            label: "Highest Score",
+            value: document.getElementById("metricHigh").innerText,
+          },
+        ];
+
+        metrics.forEach((metric) => {
+          const box = document.createElement("div");
+          box.style.border = "1px solid #ddd";
+          box.style.padding = "10px";
+          box.style.borderRadius = "8px";
+          box.style.textAlign = "center";
+          box.innerHTML = `<strong>${metric.label}</strong><br><span style="font-size:20px; color:#4CAF50;">${metric.value}</span>`;
+          metricDiv.appendChild(box);
+        });
+        element.appendChild(metricDiv);
+
+        // Additional statistics
+        const statsDiv = document.createElement("div");
+        statsDiv.style.display = "grid";
+        statsDiv.style.gridTemplateColumns = "repeat(3, 1fr)";
+        statsDiv.style.gap = "15px";
+        statsDiv.style.marginBottom = "20px";
+
+        const stats = [
+          {
+            label: "Median Score",
+            value: document.getElementById("metricMedian").innerText,
+          },
+          {
+            label: "Std Deviation",
+            value: document.getElementById("metricStdDev").innerText,
+          },
+          {
+            label: "Pass Rate",
+            value: document.getElementById("metricPassRate").innerText,
+          },
+        ];
+
+        stats.forEach((stat) => {
+          const box = document.createElement("div");
+          box.style.border = "1px solid #ddd";
+          box.style.padding = "10px";
+          box.style.borderRadius = "8px";
+          box.style.textAlign = "center";
+          box.innerHTML = `<strong>${stat.label}</strong><br><span style="font-size:18px; color:#2196F3;">${stat.value}</span>`;
+          statsDiv.appendChild(box);
+        });
+        element.appendChild(statsDiv);
+
+        // ===== PAGE BREAK =====
+        const pageBreak = document.createElement("div");
+        pageBreak.style.pageBreakBefore = "always";
+        pageBreak.style.marginTop = "20px";
+        element.appendChild(pageBreak);
+
+        // Student Table
+        const tableTitle = document.createElement("h2");
+        tableTitle.innerText = "Student Performance Data";
+        tableTitle.style.color = "#4CAF50";
+        tableTitle.style.marginTop = "30px";
+        tableTitle.style.marginBottom = "15px";
+        element.appendChild(tableTitle);
+
+        const table = document.createElement("table");
+        table.style.width = "100%";
+        table.style.borderCollapse = "collapse";
+        table.style.marginBottom = "30px";
+        table.style.fontSize = "12px";
+
+        // Table header
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        [
+          "Student Name",
+          "Exam",
+          "Assignment",
+          "Internal",
+          "Activity",
+          "Attendance",
+          "Total",
+        ].forEach((header) => {
+          const th = document.createElement("th");
+          th.innerText = header;
+          th.style.border = "1px solid #ddd";
+          th.style.padding = "8px";
+          th.style.backgroundColor = "#4CAF50";
+          th.style.color = "white";
+          th.style.textAlign = "center";
+          th.style.fontSize = "11px";
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Table body
+        const tbody = document.createElement("tbody");
+        tableData.forEach((student, index) => {
+          const row = document.createElement("tr");
+          row.style.backgroundColor = index % 2 === 0 ? "#f9f9f9" : "#fff";
+
+          // Highlight top student row
+          if (student.name === topStudent) {
+            row.style.backgroundColor = "#FFFACD";
+            row.style.fontWeight = "bold";
+            row.style.boxShadow = "inset 0 0 0 2px #FFD700";
+          }
+
+          const nameCell = document.createElement("td");
+          nameCell.innerText =
+            student.name === topStudent ? `👑 ${student.name}` : student.name;
+          nameCell.style.border = "1px solid #ddd";
+          nameCell.style.padding = "8px";
+          nameCell.style.textAlign = "left";
+          row.appendChild(nameCell);
+
+          // Add marks cells
+          [
+            student.exam,
+            student.assignment,
+            student.internal,
+            student.activity,
+            student.attendance,
+            student.totalMark,
+          ].forEach((mark) => {
+            const cell = document.createElement("td");
+            cell.innerText = mark;
+            cell.style.border = "1px solid #ddd";
+            cell.style.padding = "8px";
+            cell.style.textAlign = "center";
+            cell.style.fontWeight = "bold";
+            cell.style.color = student.totalMark >= 50 ? "#4CAF50" : "#ff4d4d";
+            row.appendChild(cell);
+          });
+
+          tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
+        element.appendChild(table);
+
+        // Add charts if they exist
+        if (marksChartInstance) {
+          // ===== PAGE BREAK FOR CHARTS =====
+          const chartPageBreak = document.createElement("div");
+          chartPageBreak.style.pageBreakBefore = "always";
+          chartPageBreak.style.marginTop = "20px";
+          element.appendChild(chartPageBreak);
+
+          const chartTitle = document.createElement("h2");
+          chartTitle.innerText = "Performance Distribution";
+          chartTitle.style.color = "#4CAF50";
+          chartTitle.style.marginTop = "30px";
+          chartTitle.style.marginBottom = "15px";
+          element.appendChild(chartTitle);
+
+          const chartsContainer = document.createElement("div");
+          chartsContainer.style.display = "grid";
+          chartsContainer.style.gridTemplateColumns = "1fr 1fr";
+          chartsContainer.style.gap = "20px";
+          chartsContainer.style.marginBottom = "30px";
+
+          // Bar Chart
+          const barChartCanvas = document.getElementById("marksChart");
+          const barChartImg = barChartCanvas.toDataURL("image/png");
+          const barImg = document.createElement("img");
+          barImg.src = barChartImg;
+          barImg.style.width = "100%";
+          barImg.style.border = "1px solid #ddd";
+          barImg.style.borderRadius = "8px";
+          chartsContainer.appendChild(barImg);
+
+          // Distribution Chart
+          const distChartCanvas = document.getElementById("distributionChart");
+          const distChartImg = distChartCanvas.toDataURL("image/png");
+          const distImg = document.createElement("img");
+          distImg.src = distChartImg;
+          distImg.style.width = "100%";
+          distImg.style.border = "1px solid #ddd";
+          distImg.style.borderRadius = "8px";
+          chartsContainer.appendChild(distImg);
+
+          element.appendChild(chartsContainer);
         }
 
-        // --- Processing Logic & Matrix Mathematics Engine ---
-        function rankStudents() {
-            const tbody = document.getElementById('studentTableBody');
-            const rows = tbody.getElementsByTagName('tr');
-            let students = [];
-            let totalScore = 0; let highestScore = 0;
+        // Footer
+        const footer = document.createElement("p");
+        footer.innerText =
+          "This report was generated by EduRank Analytics Suite. For more information, visit the dashboard.";
+        footer.style.textAlign = "center";
+        footer.style.color = "#999";
+        footer.style.marginTop = "20px";
+        footer.style.fontSize = "12px";
+        footer.style.borderTop = "1px solid #ddd";
+        footer.style.paddingTop = "10px";
+        element.appendChild(footer);
 
-            let distBuckets = { distinction: 0, merit: 0, pass: 0, fail: 0 };
+        // Generate PDF
+        const opt = {
+          margin: 10,
+          filename: `Student_Progress_Report_${new Date().getTime()}.pdf`,
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { orientation: "portrait", unit: "mm", format: "a4" },
+        };
 
-            for (let i = 0; i < rows.length; i++) {
-                const inputs = rows[i].getElementsByTagName('input');
-                if(inputs.length >= 2) {
-                    const name = inputs[0].value.trim();
-                    const marks = parseInt(inputs[1].value);
+        html2pdf().set(opt).from(element).save();
+      }
 
-                    if (name && !isNaN(marks)) {
-                        students.push({ name, marks });
-                        totalScore += marks;
-                        if(marks > highestScore) highestScore = marks;
-
-                        // Stratify data for custom bucket distribution analysis
-                        if(marks >= 85) distBuckets.distinction++;
-                        else if(marks >= 70) distBuckets.merit++;
-                        else if(marks >= 50) distBuckets.pass++;
-                        else distBuckets.fail++;
-                    }
-                }
-            }
-
-            if (students.length === 0) {
-                alert("Provide at least one active student record entry to calculate parameters.");
-                return;
-            }
-
-            const averageScore = (totalScore / students.length).toFixed(1);
-            document.getElementById('metricTotal').innerText = students.length;
-            document.getElementById('metricAverage').innerText = averageScore;
-            document.getElementById('metricHigh').innerText = highestScore;
-
-            // Sorting descending processing implementation
-            students.sort((a, b) => b.marks - a.marks);
-
-            // Calculate positional values accounting for duplicate ties
-            let currentRank = 1;
-            for (let i = 0; i < students.length; i++) {
-                if (i > 0 && students[i].marks < students[i - 1].marks) { currentRank = i + 1; }
-                students[i].rank = currentRank;
-            }
-
-            renderRankTable(students);
-            renderCharts(students, distBuckets);
-        }
-
-        function renderRankTable(sortedData) {
-            const resultBody = document.getElementById('resultTableBody');
-            resultBody.innerHTML = '';
-
-            sortedData.forEach(student => {
-                const row = resultBody.insertRow();
-                row.className = "clickable-row";
-                // Attach individual object parameter sets dynamically via closure array indexes
-                row.onclick = () => showReportCard(student);
-                
-                let rankDisplay = `<span class="rank-badge">${student.rank}</span>`;
-                if(student.rank <= 3) rankDisplay = `<span class="rank-badge rank-${student.rank}">${student.rank}</span>`;
-
-                let statusBand = student.marks >= 50 ? 
-                    `<span style="color:var(--primary); font-weight:600;"><i class="fa-solid fa-circle-check"></i> Cleared</span>` : 
-                    `<span style="color:var(--danger); font-weight:600;"><i class="fa-solid fa-triangle-exclamation"></i> Retake</span>`;
-
-                row.insertCell(0).innerHTML = rankDisplay;
-                row.insertCell(1).innerHTML = `<b>${student.name}</b>`;
-                row.insertCell(2).innerHTML = `${student.marks} / 100`;
-                row.insertCell(3).innerHTML = statusBand;
+      // --- Data Persistence Functions ---
+      function saveStudentData() {
+        const tbody = document.getElementById("studentTableBody");
+        const rows = tbody.getElementsByTagName("tr");
+        let students = [];
+        for (let i = 0; i < rows.length; i++) {
+          const inputs = rows[i].getElementsByTagName("input");
+          if (inputs.length >= 6) {
+            students.push({
+              name: inputs[0].value,
+              exam: inputs[1].value,
+              assignment: inputs[2].value,
+              internal: inputs[3].value,
+              activity: inputs[4].value,
+              attendance: inputs[5].value,
             });
+          }
+        }
+        localStorage.setItem("studentData", JSON.stringify(students));
+      }
+
+      function loadStudentData() {
+        const saved = localStorage.getItem("studentData");
+        if (saved) {
+          const students = JSON.parse(saved);
+          students.forEach((student) => {
+            addRow();
+            const tbody = document.getElementById("studentTableBody");
+            const lastRow = tbody.lastChild;
+            const inputs = lastRow.getElementsByTagName("input");
+            inputs[0].value = student.name;
+            inputs[1].value = student.exam;
+            inputs[2].value = student.assignment;
+            inputs[3].value = student.internal;
+            inputs[4].value = student.activity;
+            inputs[5].value = student.attendance;
+            calculateTotal(inputs[0]);
+          });
+        }
+      }
+
+      // --- Search Functionality ---
+      function clearSearch() {
+        document.getElementById("searchBox").value = "";
+        filterStudents("");
+      }
+
+      function filterStudents(query) {
+        const tbody = document.getElementById("studentTableBody");
+        const rows = tbody.getElementsByTagName("tr");
+        query = query.toLowerCase();
+        for (let i = 0; i < rows.length; i++) {
+          const inputs = rows[i].getElementsByTagName("input");
+          if (inputs.length >= 1) {
+            const name = inputs[0].value.toLowerCase();
+            rows[i].style.display = name.includes(query) ? "" : "none";
+          }
+        }
+      }
+
+      document
+        .getElementById("searchBox")
+        ?.addEventListener("keyup", function () {
+          filterStudents(this.value);
+        });
+
+      // --- Statistics Functions ---
+      function calculateMedian(marks) {
+        const sorted = [...marks].sort((a, b) => a - b);
+        const mid = Math.floor(sorted.length / 2);
+        return sorted.length % 2 !== 0
+          ? sorted[mid]
+          : (sorted[mid - 1] + sorted[mid]) / 2;
+      }
+
+      function calculateMode(marks) {
+        const freq = {};
+        let maxFreq = 0,
+          mode = 0;
+        marks.forEach((mark) => {
+          freq[mark] = (freq[mark] || 0) + 1;
+          if (freq[mark] > maxFreq) {
+            maxFreq = freq[mark];
+            mode = mark;
+          }
+        });
+        return mode;
+      }
+
+      function calculateStdDev(marks, mean) {
+        const variance =
+          marks.reduce((sum, mark) => sum + Math.pow(mark - mean, 2), 0) /
+          marks.length;
+        return Math.sqrt(variance).toFixed(1);
+      }
+
+      function calculatePercentile(marks, studentMark) {
+        const count = marks.filter((m) => m < studentMark).length;
+        return Math.round((count / marks.length) * 100);
+      }
+
+      // --- Processing Logic & Matrix Mathematics Engine ---
+      function rankStudents() {
+        const tbody = document.getElementById("studentTableBody");
+        const rows = tbody.getElementsByTagName("tr");
+        let students = [];
+        let totalScore = 0;
+        let highestScore = 0;
+        let allMarks = [];
+
+        let distBuckets = { distinction: 0, merit: 0, pass: 0, fail: 0 };
+
+        for (let i = 0; i < rows.length; i++) {
+          const inputs = rows[i].getElementsByTagName("input");
+          if (inputs.length >= 6) {
+            const name = inputs[0].value.trim();
+            const exam = parseInt(inputs[1].value) || 0;
+            const assignment = parseInt(inputs[2].value) || 0;
+            const internal = parseInt(inputs[3].value) || 0;
+            const activity = parseInt(inputs[4].value) || 0;
+            const attendance = parseInt(inputs[5].value) || 0;
+
+            const totalMarks = exam + assignment + internal + activity;
+
+            if (name && totalMarks > 0 && attendance >= 0) {
+              students.push({
+                name,
+                exam,
+                assignment,
+                internal,
+                activity,
+                attendance,
+                totalMarks,
+              });
+              totalScore += totalMarks;
+              allMarks.push(totalMarks);
+              if (totalMarks > highestScore) highestScore = totalMarks;
+
+              // Stratify data for custom bucket distribution analysis
+              if (totalMarks >= 85) distBuckets.distinction++;
+              else if (totalMarks >= 70) distBuckets.merit++;
+              else if (totalMarks >= 50) distBuckets.pass++;
+              else distBuckets.fail++;
+            }
+          }
         }
 
-        // --- Automated Personalized Profile Modals Generation ---
-        function showReportCard(student) {
-            document.getElementById('modalName').innerText = student.name;
-            document.getElementById('modalMetrics').innerText = `Final Mark: ${student.marks}/100 • Leaderboard Standing: Rank #${student.rank}`;
-            
-            let grade = 'F'; let comment = '';
-            if(student.marks >= 85) { grade = 'A'; comment = "Outstanding performance! Demonstrates clear mastery of the material covered during the evaluation cycle."; }
-            else if(student.marks >= 70) { grade = 'B'; comment = "Solid progress. Student possesses core conceptual tracking with opportunities for minor optimization."; }
-            else if(student.marks >= 50) { grade = 'C'; comment = "Passed the minimum program baselines. Targeted practice modules are suggested to reinforce foundations."; }
-            else { grade = 'E'; comment = "Requires immediate intervention. Targeted tutorial scheduling is strongly recommended ahead of subsequent assessments."; }
-
-            document.getElementById('modalGrade').innerText = grade;
-            document.getElementById('modalGrade').style.color = student.marks >= 50 ? "var(--primary)" : "var(--danger)";
-            document.getElementById('modalComment').innerText = `"${comment}"`;
-            document.getElementById('reportModal').style.display = 'flex';
+        if (students.length === 0) {
+          alert(
+            "Provide at least one active student record entry to calculate parameters.",
+          );
+          return;
         }
 
-        function closeModal() { document.getElementById('reportModal').style.display = 'none'; }
+        const averageScore = (totalScore / students.length).toFixed(1);
+        const medianScore = calculateMedian(allMarks).toFixed(1);
+        const stdDevScore = calculateStdDev(allMarks, parseFloat(averageScore));
+        const passCount = students.filter((s) => s.totalMarks >= 50).length;
+        const passRate = ((passCount / students.length) * 100).toFixed(0);
 
-        // --- ChartJS Multi-Graph Engine Layout ---
-        function renderCharts(data, buckets) {
-            const isDark = document.body.getAttribute('data-theme') === 'dark';
-            const gridColor = isDark ? '#2d2d34' : '#eaeaea';
-            const tickColor = isDark ? '#aaaaaa' : '#666666';
+        document.getElementById("metricTotal").innerText = students.length;
+        document.getElementById("metricAverage").innerText = averageScore;
+        document.getElementById("metricHigh").innerText = highestScore;
+        document.getElementById("metricMedian").innerText = medianScore;
+        document.getElementById("metricStdDev").innerText = stdDevScore;
+        document.getElementById("metricPassRate").innerText = passRate + "%";
 
-            // --- 1. Bar Chart Setup ---
-            const ctxBar = document.getElementById('marksChart').getContext('2d');
-            if (marksChartInstance) marksChartInstance.destroy();
+        // Sorting descending processing implementation
+        students.sort((a, b) => b.totalMarks - a.totalMarks);
 
-            marksChartInstance = new Chart(ctxBar, {
-                type: 'bar',
-                data: {
-                    labels: data.map(s => s.name),
-                    datasets: [{
-                        data: data.map(s => s.marks),
-                        backgroundColor: data.map(s => s.marks < 50 ? 'rgba(255, 77, 77, 0.6)' : 'rgba(76, 175, 80, 0.6)'),
-                        borderColor: data.map(s => s.marks < 50 ? 'rgba(255, 77, 77, 1)' : 'rgba(76, 175, 80, 1)'),
-                        borderWidth: 1.5, borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: {
-                        y: { 
-                            beginAtZero: true, max: 100, 
-                            grid: { color: gridColor }, ticks: { color: tickColor } 
-                        },
-                        x: { grid: { display: false }, ticks: { color: tickColor } }
-                    },
-                    plugins: { legend: { display: false } }
-                }
-            });
-
-            // --- 2. Cohort Donut Chart Setup ---
-            const ctxPie = document.getElementById('distributionChart').getContext('2d');
-            if (distChartInstance) distChartInstance.destroy();
-
-            distChartInstance = new Chart(ctxPie, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Distinction', 'Merit', 'Pass', 'Fail'],
-                    datasets: [{
-                        data: [buckets.distinction, buckets.merit, buckets.pass, buckets.fail],
-                        backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#f44336'],
-                        borderWidth: isDark ? 2 : 1,
-                        borderColor: isDark ? '#1a1a1e' : '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'right', labels: { boxWidth: 12, color: tickColor, font: { size: 11 } } }
-                    },
-                    cutout: '65%'
-                }
-            });
+        // Calculate positional values accounting for duplicate ties
+        let currentRank = 1;
+        for (let i = 0; i < students.length; i++) {
+          if (i > 0 && students[i].totalMarks < students[i - 1].totalMarks) {
+            currentRank = i + 1;
+          }
+          students[i].rank = currentRank;
+          students[i].percentile = calculatePercentile(
+            allMarks,
+            students[i].totalMarks,
+          );
         }
+
+        saveStudentData();
+        renderRankTable(students);
+        renderCharts(students, distBuckets);
+      }
+
+      function renderRankTable(sortedData) {
+        const resultBody = document.getElementById("resultTableBody");
+        resultBody.innerHTML = "";
+
+        sortedData.forEach((student) => {
+          const row = resultBody.insertRow();
+          row.className = "clickable-row";
+          row.onclick = () => showReportCard(student);
+
+          let rankDisplay = `<span class="rank-badge">${student.rank}</span>`;
+          if (student.rank <= 3)
+            rankDisplay = `<span class="rank-badge rank-${student.rank}">${student.rank}</span>`;
+
+          let statusBand =
+            student.totalMarks >= 50
+              ? `<span style="color:var(--primary); font-weight:600;"><i class="fa-solid fa-circle-check"></i> Cleared</span>`
+              : `<span style="color:var(--danger); font-weight:600;"><i class="fa-solid fa-triangle-exclamation"></i> Retake</span>`;
+
+          row.insertCell(0).innerHTML = rankDisplay;
+          row.insertCell(1).innerHTML = `<b>${student.name}</b>`;
+          row.insertCell(2).innerHTML = student.exam;
+          row.insertCell(3).innerHTML = student.assignment;
+          row.insertCell(4).innerHTML = student.internal;
+          row.insertCell(5).innerHTML = student.activity;
+          row.insertCell(6).innerHTML =
+            `<b style="color:#4CAF50;">${student.totalMarks}</b>`;
+          row.insertCell(7).innerHTML = `${student.percentile}th`;
+          row.insertCell(8).innerHTML = statusBand;
+        });
+      }
+
+      // --- Batch Operations ---
+      function clearAllData() {
+        if (confirm("Are you sure you want to clear all student data?")) {
+          document.getElementById("studentTableBody").innerHTML = "";
+          document.getElementById("resultTableBody").innerHTML =
+            `<tr><td colspan="9" style="color:var(--text-secondary); padding:30px;">Hydrate registry record fields to run compilation passes.</td></tr>`;
+          localStorage.removeItem("studentData");
+          document.getElementById("metricTotal").innerText = "0";
+          document.getElementById("metricAverage").innerText = "0.0";
+          document.getElementById("metricHigh").innerText = "0";
+          document.getElementById("metricMedian").innerText = "0.0";
+          document.getElementById("metricStdDev").innerText = "0.0";
+          document.getElementById("metricPassRate").innerText = "0%";
+        }
+      }
+
+      // --- CSV Import Functionality ---
+      function importCSV() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".csv";
+        input.onchange = (e) => {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const csv = event.target.result;
+            const lines = csv.split("\n");
+            let imported = 0;
+            for (let i = 1; i < lines.length; i++) {
+              const parts = lines[i].split(",");
+              if (parts.length >= 2 && parts[0].trim()) {
+                addRow();
+                const tbody = document.getElementById("studentTableBody");
+                const lastRow = tbody.lastChild;
+                const inputs = lastRow.getElementsByTagName("input");
+                inputs[0].value = parts[0].trim();
+                if (parts.length >= 2) inputs[1].value = parts[1].trim() || 0;
+                if (parts.length >= 3) inputs[2].value = parts[2].trim() || 0;
+                if (parts.length >= 4) inputs[3].value = parts[3].trim() || 0;
+                if (parts.length >= 5) inputs[4].value = parts[4].trim() || 0;
+                if (parts.length >= 6) inputs[5].value = parts[5].trim() || 0;
+                calculateTotal(inputs[0]);
+                imported++;
+              }
+            }
+            alert(`Successfully imported ${imported} students!`);
+          };
+          reader.readAsText(file);
+        };
+        input.click();
+      }
+
+      // --- Automated Personalized Profile Modals Generation ---
+      function showReportCard(student) {
+        document.getElementById("modalName").innerText = student.name;
+        document.getElementById("modalMetrics").innerText =
+          `Total Marks: ${student.totalMarks}/100 • Rank #${student.rank} • ${student.percentile || 0}th Percentile • Attendance: ${student.attendance}%`;
+
+        let grade = "F";
+        let comment = "";
+        if (student.totalMarks >= 85) {
+          grade = "A";
+          comment =
+            "Outstanding performance! Demonstrates clear mastery of the material covered during the evaluation cycle.";
+        } else if (student.totalMarks >= 70) {
+          grade = "B";
+          comment =
+            "Solid progress. Student possesses core conceptual tracking with opportunities for minor optimization.";
+        } else if (student.totalMarks >= 50) {
+          grade = "C";
+          comment =
+            "Passed the minimum program baselines. Targeted practice modules are suggested to reinforce foundations.";
+        } else {
+          grade = "E";
+          comment =
+            "Requires immediate intervention. Targeted tutorial scheduling is strongly recommended ahead of subsequent assessments.";
+        }
+
+        document.getElementById("modalGrade").innerText = grade;
+        document.getElementById("modalGrade").style.color =
+          student.totalMarks >= 50 ? "var(--primary)" : "var(--danger)";
+        document.getElementById("modalComment").innerText =
+          `"${comment}"\n\nBreakdown: Exam: ${student.exam}/50 • Assignment: ${student.assignment}/20 • Internal: ${student.internal}/20 • Activity: ${student.activity}/10`;
+        document.getElementById("reportModal").style.display = "flex";
+      }
+
+      function closeModal() {
+        document.getElementById("reportModal").style.display = "none";
+      }
+
+      // --- ChartJS Multi-Graph Engine Layout ---
+      function renderCharts(data, buckets) {
+        const isDark = document.body.getAttribute("data-theme") === "dark";
+        const gridColor = isDark ? "#2d2d34" : "#eaeaea";
+        const tickColor = isDark ? "#aaaaaa" : "#666666";
+
+        // --- 1. Bar Chart Setup ---
+        const ctxBar = document.getElementById("marksChart").getContext("2d");
+        if (marksChartInstance) marksChartInstance.destroy();
+
+        marksChartInstance = new Chart(ctxBar, {
+          type: "bar",
+          data: {
+            labels: data.map((s) => s.name),
+            datasets: [
+              {
+                data: data.map((s) => s.totalMarks),
+                backgroundColor: data.map((s) =>
+                  s.totalMarks < 50
+                    ? "rgba(255, 77, 77, 0.6)"
+                    : "rgba(76, 175, 80, 0.6)",
+                ),
+                borderColor: data.map((s) =>
+                  s.totalMarks < 50
+                    ? "rgba(255, 77, 77, 1)"
+                    : "rgba(76, 175, 80, 1)",
+                ),
+                borderWidth: 1.5,
+                borderRadius: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+                grid: { color: gridColor },
+                ticks: { color: tickColor },
+              },
+              x: { grid: { display: false }, ticks: { color: tickColor } },
+            },
+            plugins: { legend: { display: false } },
+          },
+        });
+
+        // --- 2. Cohort Donut Chart Setup ---
+        const ctxPie = document
+          .getElementById("distributionChart")
+          .getContext("2d");
+        if (distChartInstance) distChartInstance.destroy();
+
+        distChartInstance = new Chart(ctxPie, {
+          type: "doughnut",
+          data: {
+            labels: ["Distinction", "Merit", "Pass", "Fail"],
+            datasets: [
+              {
+                data: [
+                  buckets.distinction,
+                  buckets.merit,
+                  buckets.pass,
+                  buckets.fail,
+                ],
+                backgroundColor: ["#4CAF50", "#2196F3", "#FF9800", "#f44336"],
+                borderWidth: isDark ? 2 : 1,
+                borderColor: isDark ? "#1a1a1e" : "#ffffff",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "right",
+                labels: { boxWidth: 12, color: tickColor, font: { size: 11 } },
+              },
+            },
+            cutout: "65%",
+          },
+        });
+      }
     </script>
-</body>
-</html> 
-
+  </body>
+</html>
