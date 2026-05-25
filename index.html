@@ -43,9 +43,6 @@
         margin: 0;
         padding: 0;
         color: var(--text);
-        transition:
-          background 0.3s,
-          color 0.3s;
       }
 
       /* --- Auth screen --- */
@@ -54,22 +51,57 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        background: linear-gradient(135deg, #2e7d32 0%, #111111 100%);
+        background: #1a1a2e;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #authScreen::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        top: 0;
+        left: 0;
       }
 
       .login-card {
-        background: var(--card-bg);
-        padding: 40px;
-        border-radius: 16px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 50px 45px;
+        border-radius: 20px;
+        box-shadow: none;
         width: 100%;
-        max-width: 400px;
+        max-width: 420px;
         text-align: center;
+        position: relative;
+        z-index: 10;
+        border: 1px solid rgba(76, 175, 80, 0.1);
+      }
+
+      .login-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--primary);
+        border-radius: 20px 20px 0 0;
       }
 
       .login-card h2 {
-        margin-bottom: 25px;
+        margin: 0 0 10px 0;
         color: var(--primary);
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
+      .login-card p {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 30px;
       }
 
       .input-group {
@@ -79,22 +111,34 @@
 
       .input-group i {
         position: absolute;
-        left: 15px;
+        left: 16px;
+        top: 50%;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--text-secondary);
+        color: var(--primary);
+        font-size: 16px;
       }
 
       .input-group input {
         width: 100%;
-        padding: 12px 12px 12px 40px;
-        border: 1px solid var(--border);
-        background: var(--bg);
+        padding: 14px 14px 14px 45px;
+        border: 2px solid var(--border);
+        background: rgba(255, 255, 255, 0.8);
         color: var(--text);
-        border-radius: 8px;
+        border-radius: 10px;
         box-sizing: border-box;
-        font-size: 16px;
+        font-size: 15px;
         outline: none;
+      }
+
+      .input-group input::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.7;
+      }
+
+      .input-group input:focus {
+        border-color: var(--primary);
+        background: rgba(255, 255, 255, 1);
       }
 
       /* --- Dashboard UI --- */
@@ -108,7 +152,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        box-shadow: none;
+        border-bottom: 1px solid var(--border);
       }
 
       header h1 {
@@ -137,10 +182,13 @@
 
       @media (min-width: 1024px) {
         .container {
-          grid-template-columns: 1.1fr 0.9fr;
+          grid-template-columns: 1fr;
         }
         .full-width {
-          grid-column: span 2;
+          grid-column: span 1;
+        }
+        .roster-card {
+          grid-column: span 1;
         }
       }
 
@@ -149,8 +197,8 @@
         background: var(--card-bg);
         padding: 25px;
         border-radius: 14px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-        transition: transform 0.2s;
+        box-shadow: none;
+        border: 1px solid var(--border);
       }
 
       .card h2 {
@@ -174,11 +222,12 @@
         background: var(--card-bg);
         padding: 20px;
         border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        box-shadow: none;
+        border: 1px solid var(--border);
+        border-bottom: 4px solid var(--primary);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 4px solid var(--primary);
       }
       .metric-box.blue {
         border-bottom-color: var(--accent);
@@ -238,48 +287,44 @@
 
       .clickable-row {
         cursor: pointer;
-        transition: background 0.2s;
-      }
-      .clickable-row:hover {
-        background: rgba(0, 0, 0, 0.03);
-      }
-      [data-theme="dark"] .clickable-row:hover {
-        background: rgba(255, 255, 255, 0.04);
       }
 
       /* --- Buttons & Utilities --- */
       button {
-        padding: 10px 18px;
+        padding: 12px 24px;
         background: var(--primary);
         color: white;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
-        font-weight: 500;
+        font-weight: 600;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
         font-size: 14px;
       }
-      button:hover {
-        background: var(--primary-hover);
+
+      .login-card form button {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        background: #4caf50;
+        box-shadow: none;
+        position: relative;
+        overflow: hidden;
       }
+
       .btn-danger {
         background: var(--danger);
-      }
-      .btn-danger:hover {
-        background: var(--danger-hover);
+        box-shadow: none;
       }
       .btn-outline {
         background: transparent;
         color: var(--text);
-        border: 1px solid var(--border);
-      }
-      .btn-outline:hover {
-        background: rgba(0, 0, 0, 0.04);
-      }
-      [data-theme="dark"] .btn-outline:hover {
-        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid var(--primary);
+        box-shadow: none;
       }
 
       .action-row {
@@ -308,7 +353,6 @@
       .rank-1 {
         background: #ffdf00;
         color: #333;
-        box-shadow: 0 0 8px rgba(255, 223, 0, 0.4);
       }
       .rank-2 {
         background: #b4b4b4;
@@ -344,7 +388,6 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(4px);
         justify-content: center;
         align-items: center;
         z-index: 100;
@@ -355,19 +398,9 @@
         border-radius: 16px;
         width: 90%;
         max-width: 450px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        box-shadow: none;
+        border: 1px solid var(--border);
         text-align: center;
-        animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      }
-      @keyframes slideUp {
-        from {
-          transform: translateY(30px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
       }
 
       .report-card-badge {
@@ -382,13 +415,14 @@
     <div id="authScreen">
       <div class="login-card">
         <h2><i class="fa-solid fa-graduation-cap"></i> EduRank Workspace</h2>
+        <p>Intelligent Student Performance Analytics & Ranking System</p>
         <form id="loginForm" onsubmit="return handleLogin(event);">
           <div class="input-group">
             <i class="fa-solid fa-user"></i>
             <input
               type="text"
               id="username"
-              placeholder="Any Username"
+              placeholder="Enter Username"
               required
             />
           </div>
@@ -397,15 +431,12 @@
             <input
               type="password"
               id="password"
-              placeholder="Any Password"
+              placeholder="Enter Password"
               required
             />
           </div>
-          <button
-            type="submit"
-            style="width: 100%; justify-content: center; padding: 12px"
-          >
-            Enter Dashboard <i class="fa-solid fa-arrow-right"></i>
+          <button type="submit">
+            <span>Enter Dashboard</span> <i class="fa-solid fa-arrow-right"></i>
           </button>
         </form>
       </div>
@@ -476,7 +507,7 @@
             <i class="fa-solid fa-percent"></i>
           </div>
         </div>
-        <div class="card">
+        <div class="card roster-card">
           <h2><i class="fa-solid fa-users"></i> Student Roster Management</h2>
           <div style="display: flex; gap: 10px; margin-bottom: 15px">
             <input
@@ -537,20 +568,141 @@
           </div>
         </div>
 
-        <div class="card">
-          <h2>
-            <i class="fa-solid fa-chart-line"></i> Dynamic Analytical
-            Distribution
-          </h2>
-          <div class="charts-grid">
+        <div class="card full-width" id="chartsCard">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 25px;
+              border-bottom: 2px solid var(--primary);
+              padding-bottom: 15px;
+            "
+          >
             <div>
-              <div class="chart-wrapper">
-                <canvas id="marksChart"></canvas>
-              </div>
+              <h2
+                style="margin: 0; display: flex; align-items: center; gap: 10px"
+              >
+                <i
+                  class="fa-solid fa-chart-line"
+                  style="color: var(--primary)"
+                ></i>
+                Dynamic Analytical Distribution
+              </h2>
+              <p
+                style="
+                  margin: 5px 0 0 0;
+                  color: var(--text-secondary);
+                  font-size: 13px;
+                "
+              >
+                <strong style="color: var(--primary)">Top 10 Students</strong> •
+                Visualize student performance metrics and score distribution
+                analysis
+              </p>
             </div>
-            <div>
-              <div class="chart-wrapper">
-                <canvas id="distributionChart"></canvas>
+            <button
+              onclick="toggleCharts()"
+              class="btn-outline"
+              style="
+                padding: 10px 18px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                border: 2px solid var(--primary);
+                color: var(--primary);
+              "
+            >
+              <i id="chartsToggleIcon" class="fa-solid fa-eye-slash"></i>
+              <span id="chartsToggleText">Show Charts</span>
+            </button>
+          </div>
+          <div
+            id="chartsContent"
+            style="
+              display: none;
+              padding: 20px;
+              background: rgba(76, 175, 80, 0.02);
+              border-radius: 12px;
+            "
+          >
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1.3fr 0.7fr;
+                gap: 25px;
+              "
+            >
+              <div
+                style="
+                  background: var(--card-bg);
+                  padding: 20px;
+                  border-radius: 12px;
+                  border: 1px solid var(--border);
+                  border-left: 5px solid var(--primary);
+                "
+              >
+                <h3
+                  style="
+                    margin-top: 0;
+                    margin-bottom: 15px;
+                    color: var(--primary);
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                  "
+                >
+                  <i class="fa-solid fa-bar-chart"></i> Student Performance
+                  Comparison
+                </h3>
+                <div class="chart-wrapper" style="height: 380px">
+                  <canvas id="marksChart"></canvas>
+                </div>
+                <p
+                  style="
+                    font-size: 12px;
+                    color: var(--text-secondary);
+                    margin-top: 10px;
+                    text-align: center;
+                  "
+                >
+                  Comparative analysis of total marks scored by each student
+                </p>
+              </div>
+              <div
+                style="
+                  background: var(--card-bg);
+                  padding: 20px;
+                  border-radius: 12px;
+                  border: 1px solid var(--border);
+                  border-left: 5px solid #ffc107;
+                "
+              >
+                <h3
+                  style="
+                    margin-top: 0;
+                    margin-bottom: 15px;
+                    color: #ff9800;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                  "
+                >
+                  <i class="fa-solid fa-pie-chart"></i> Category Distribution
+                </h3>
+                <div class="chart-wrapper" style="height: 380px">
+                  <canvas id="distributionChart"></canvas>
+                </div>
+                <p
+                  style="
+                    font-size: 12px;
+                    color: var(--text-secondary);
+                    margin-top: 10px;
+                    text-align: center;
+                  "
+                >
+                  Breakdown of students by performance categories
+                </p>
               </div>
             </div>
           </div>
@@ -651,14 +803,36 @@
         if (marksChartInstance) rankStudents(); // Refresh chart styles cleanly
       }
 
+      // --- Charts Toggle Control ---
+      function toggleCharts() {
+        const chartsContent = document.getElementById("chartsContent");
+        const toggleIcon = document.getElementById("chartsToggleIcon");
+        const toggleText = document.getElementById("chartsToggleText");
+
+        if (chartsContent.style.display === "none") {
+          chartsContent.style.display = "grid";
+          toggleIcon.className = "fa-solid fa-eye";
+          toggleText.innerText = "Hide Charts";
+        } else {
+          chartsContent.style.display = "none";
+          toggleIcon.className = "fa-solid fa-eye-slash";
+          toggleText.innerText = "Show Charts";
+        }
+      }
+
       // --- Authentication Actions ---
       function handleLogin(e) {
         e.preventDefault();
         const user = document.getElementById("username").value.trim();
-        if (user) {
+        const pass = document.getElementById("password").value.trim();
+        if (user && pass) {
           document.getElementById("displayAdminName").innerText = user;
           document.getElementById("authScreen").style.display = "none";
           document.getElementById("dashboardScreen").style.display = "block";
+
+          // Set dark theme
+          document.body.setAttribute("data-theme", "dark");
+          document.getElementById("themeIcon").className = "fa-solid fa-sun";
 
           // Load saved data or spawn entry slots on startup
           const saved = localStorage.getItem("studentData");
@@ -696,6 +870,10 @@
           distChartInstance.destroy();
           distChartInstance = null;
         }
+
+        // Remove dark theme
+        document.body.removeAttribute("data-theme");
+        document.getElementById("themeIcon").className = "fa-solid fa-moon";
 
         document.getElementById("dashboardScreen").style.display = "none";
         document.getElementById("authScreen").style.display = "flex";
@@ -840,36 +1018,51 @@
         element.style.backgroundColor = "#fff";
         element.style.color = "#333";
 
+        // ===== PAGE 1: STUDENT OF THE YEAR =====
+        const page1 = document.createElement("div");
+        page1.style.pageBreakAfter = "always";
+        page1.style.minHeight = "100vh";
+        page1.style.display = "flex";
+        page1.style.flexDirection = "column";
+        page1.style.justifyContent = "space-between";
+
         // Title
         const title = document.createElement("h1");
         title.innerText = "EduRank Student Progress Report";
         title.style.textAlign = "center";
         title.style.color = "#4CAF50";
         title.style.marginBottom = "10px";
-        element.appendChild(title);
+        title.style.marginTop = "0";
+        page1.appendChild(title);
 
         // Timestamp
         const timestamp = document.createElement("p");
         timestamp.innerText = `Generated on: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`;
         timestamp.style.textAlign = "center";
         timestamp.style.color = "#777";
-        timestamp.style.marginBottom = "30px";
-        element.appendChild(timestamp);
+        timestamp.style.marginBottom = "40px";
+        page1.appendChild(timestamp);
 
-        // ===== STUDENT OF THE YEAR SECTION =====
+        // STUDENT OF THE YEAR SECTION - Centered vertically
+        const awardContainer = document.createElement("div");
+        awardContainer.style.display = "flex";
+        awardContainer.style.justifyContent = "center";
+        awardContainer.style.alignItems = "center";
+        awardContainer.style.flex = "1";
+
         const awardDiv = document.createElement("div");
         awardDiv.style.backgroundColor = "#FFF8DC";
         awardDiv.style.border = "3px solid #FFD700";
         awardDiv.style.borderRadius = "15px";
-        awardDiv.style.padding = "20px";
+        awardDiv.style.padding = "40px";
         awardDiv.style.textAlign = "center";
-        awardDiv.style.marginBottom = "30px";
-        awardDiv.style.boxShadow = "0 4px 15px rgba(255, 215, 0, 0.4)";
+        awardDiv.style.width = "90%";
+        awardDiv.style.maxWidth = "600px";
 
         // Trophy icon
         const trophy = document.createElement("div");
-        trophy.style.fontSize = "48px";
-        trophy.style.marginBottom = "10px";
+        trophy.style.fontSize = "64px";
+        trophy.style.marginBottom = "20px";
         trophy.innerHTML = "🏆";
         awardDiv.appendChild(trophy);
 
@@ -878,7 +1071,7 @@
         awardTitle.innerText = "⭐ STUDENT OF THE YEAR ⭐";
         awardTitle.style.color = "#FF8C00";
         awardTitle.style.margin = "10px 0";
-        awardTitle.style.fontSize = "24px";
+        awardTitle.style.fontSize = "32px";
         awardTitle.style.fontWeight = "bold";
         awardDiv.appendChild(awardTitle);
 
@@ -886,16 +1079,16 @@
         const studentName = document.createElement("h3");
         studentName.innerText = topStudent;
         studentName.style.color = "#4CAF50";
-        studentName.style.fontSize = "28px";
-        studentName.style.margin = "15px 0";
+        studentName.style.fontSize = "36px";
+        studentName.style.margin = "20px 0";
         studentName.style.fontStyle = "italic";
         awardDiv.appendChild(studentName);
 
         // Appreciation message
         const appreciation = document.createElement("p");
         appreciation.innerHTML = `
-          <strong style="font-size: 16px; color: #333;">🎉 Congratulations! 🎉</strong><br><br>
-          <em style="color: #555; font-size: 14px;">
+          <strong style="font-size: 18px; color: #333;">🎉 Congratulations! 🎉</strong><br><br>
+          <em style="color: #555; font-size: 14px; line-height: 1.8;">
             Dear ${topStudent},<br><br>
             We are delighted to recognize you as the <strong>Student of the Year</strong>!<br>
             Your exceptional performance with a score of <strong>${maxMark}/100</strong> demonstrates
@@ -906,91 +1099,26 @@
             Keep up the amazing work! 🌟
           </em>
         `;
-        appreciation.style.margin = "15px 0";
-        appreciation.style.lineHeight = "1.6";
+        appreciation.style.margin = "20px 0 0 0";
         awardDiv.appendChild(appreciation);
 
-        element.appendChild(awardDiv);
+        awardContainer.appendChild(awardDiv);
+        page1.appendChild(awardContainer);
 
-        // ===== METRICS SECTION =====
-        const metricDiv = document.createElement("div");
-        metricDiv.style.display = "grid";
-        metricDiv.style.gridTemplateColumns = "repeat(3, 1fr)";
-        metricDiv.style.gap = "15px";
-        metricDiv.style.marginBottom = "20px";
+        element.appendChild(page1);
 
-        const metrics = [
-          {
-            label: "Total Students",
-            value: document.getElementById("metricTotal").innerText,
-          },
-          {
-            label: "Average Score",
-            value: document.getElementById("metricAverage").innerText,
-          },
-          {
-            label: "Highest Score",
-            value: document.getElementById("metricHigh").innerText,
-          },
-        ];
+        // ===== PAGE 2: STUDENT PERFORMANCE DATA =====
+        const page2 = document.createElement("div");
+        page2.style.pageBreakAfter = "always";
+        page2.style.minHeight = "100vh";
 
-        metrics.forEach((metric) => {
-          const box = document.createElement("div");
-          box.style.border = "1px solid #ddd";
-          box.style.padding = "10px";
-          box.style.borderRadius = "8px";
-          box.style.textAlign = "center";
-          box.innerHTML = `<strong>${metric.label}</strong><br><span style="font-size:20px; color:#4CAF50;">${metric.value}</span>`;
-          metricDiv.appendChild(box);
-        });
-        element.appendChild(metricDiv);
-
-        // Additional statistics
-        const statsDiv = document.createElement("div");
-        statsDiv.style.display = "grid";
-        statsDiv.style.gridTemplateColumns = "repeat(3, 1fr)";
-        statsDiv.style.gap = "15px";
-        statsDiv.style.marginBottom = "20px";
-
-        const stats = [
-          {
-            label: "Median Score",
-            value: document.getElementById("metricMedian").innerText,
-          },
-          {
-            label: "Std Deviation",
-            value: document.getElementById("metricStdDev").innerText,
-          },
-          {
-            label: "Pass Rate",
-            value: document.getElementById("metricPassRate").innerText,
-          },
-        ];
-
-        stats.forEach((stat) => {
-          const box = document.createElement("div");
-          box.style.border = "1px solid #ddd";
-          box.style.padding = "10px";
-          box.style.borderRadius = "8px";
-          box.style.textAlign = "center";
-          box.innerHTML = `<strong>${stat.label}</strong><br><span style="font-size:18px; color:#2196F3;">${stat.value}</span>`;
-          statsDiv.appendChild(box);
-        });
-        element.appendChild(statsDiv);
-
-        // ===== PAGE BREAK =====
-        const pageBreak = document.createElement("div");
-        pageBreak.style.pageBreakBefore = "always";
-        pageBreak.style.marginTop = "20px";
-        element.appendChild(pageBreak);
-
-        // Student Table
+        // Student Table Title
         const tableTitle = document.createElement("h2");
         tableTitle.innerText = "Student Performance Data";
         tableTitle.style.color = "#4CAF50";
-        tableTitle.style.marginTop = "30px";
-        tableTitle.style.marginBottom = "15px";
-        element.appendChild(tableTitle);
+        tableTitle.style.marginTop = "0";
+        tableTitle.style.marginBottom = "20px";
+        page2.appendChild(tableTitle);
 
         const table = document.createElement("table");
         table.style.width = "100%";
@@ -1066,74 +1194,147 @@
           tbody.appendChild(row);
         });
         table.appendChild(tbody);
-        element.appendChild(table);
+        page2.appendChild(table);
+
+        // ===== METRICS SECTION (PAGE 2) =====
+        const metricDiv = document.createElement("div");
+        metricDiv.style.display = "grid";
+        metricDiv.style.gridTemplateColumns = "repeat(3, 1fr)";
+        metricDiv.style.gap = "15px";
+        metricDiv.style.marginBottom = "20px";
+        metricDiv.style.marginTop = "20px";
+
+        const metrics = [
+          {
+            label: "Total Students",
+            value: document.getElementById("metricTotal").innerText,
+          },
+          {
+            label: "Average Score",
+            value: document.getElementById("metricAverage").innerText,
+          },
+          {
+            label: "Highest Score",
+            value: document.getElementById("metricHigh").innerText,
+          },
+        ];
+
+        metrics.forEach((metric) => {
+          const box = document.createElement("div");
+          box.style.border = "1px solid #ddd";
+          box.style.padding = "10px";
+          box.style.borderRadius = "8px";
+          box.style.textAlign = "center";
+          box.innerHTML = `<strong>${metric.label}</strong><br><span style="font-size:20px; color:#4CAF50;">${metric.value}</span>`;
+          metricDiv.appendChild(box);
+        });
+        page2.appendChild(metricDiv);
+
+        // Additional statistics
+        const statsDiv = document.createElement("div");
+        statsDiv.style.display = "grid";
+        statsDiv.style.gridTemplateColumns = "repeat(3, 1fr)";
+        statsDiv.style.gap = "15px";
+        statsDiv.style.marginBottom = "20px";
+
+        const stats = [
+          {
+            label: "Median Score",
+            value: document.getElementById("metricMedian").innerText,
+          },
+          {
+            label: "Std Deviation",
+            value: document.getElementById("metricStdDev").innerText,
+          },
+          {
+            label: "Pass Rate",
+            value: document.getElementById("metricPassRate").innerText,
+          },
+        ];
+
+        stats.forEach((stat) => {
+          const box = document.createElement("div");
+          box.style.border = "1px solid #ddd";
+          box.style.padding = "10px";
+          box.style.borderRadius = "8px";
+          box.style.textAlign = "center";
+          box.innerHTML = `<strong>${stat.label}</strong><br><span style="font-size:18px; color:#2196F3;">${stat.value}</span>`;
+          statsDiv.appendChild(box);
+        });
+        page2.appendChild(statsDiv);
+        element.appendChild(page2);
+
+        // ===== PAGE 3: GRAPHS =====
+        const page3 = document.createElement("div");
+        page3.style.minHeight = "100vh";
+
+        const chartTitle = document.createElement("h2");
+        chartTitle.innerText = "Performance Distribution Graphs";
+        chartTitle.style.color = "#4CAF50";
+        chartTitle.style.marginTop = "0";
+        chartTitle.style.marginBottom = "30px";
+        page3.appendChild(chartTitle);
 
         // Add charts if they exist
         if (marksChartInstance) {
-          // ===== PAGE BREAK FOR CHARTS =====
-          const chartPageBreak = document.createElement("div");
-          chartPageBreak.style.pageBreakBefore = "always";
-          chartPageBreak.style.marginTop = "20px";
-          element.appendChild(chartPageBreak);
-
-          const chartTitle = document.createElement("h2");
-          chartTitle.innerText = "Performance Distribution";
-          chartTitle.style.color = "#4CAF50";
-          chartTitle.style.marginTop = "30px";
-          chartTitle.style.marginBottom = "15px";
-          element.appendChild(chartTitle);
-
-          const chartsContainer = document.createElement("div");
-          chartsContainer.style.display = "grid";
-          chartsContainer.style.gridTemplateColumns = "1fr 1fr";
-          chartsContainer.style.gap = "20px";
-          chartsContainer.style.marginBottom = "30px";
-
-          // Bar Chart
-          const barChartCanvas = document.getElementById("marksChart");
-          const barChartImg = barChartCanvas.toDataURL("image/png");
-          const barImg = document.createElement("img");
-          barImg.src = barChartImg;
-          barImg.style.width = "100%";
-          barImg.style.border = "1px solid #ddd";
-          barImg.style.borderRadius = "8px";
-          chartsContainer.appendChild(barImg);
-
-          // Distribution Chart
-          const distChartCanvas = document.getElementById("distributionChart");
-          const distChartImg = distChartCanvas.toDataURL("image/png");
-          const distImg = document.createElement("img");
-          distImg.src = distChartImg;
-          distImg.style.width = "100%";
-          distImg.style.border = "1px solid #ddd";
-          distImg.style.borderRadius = "8px";
-          chartsContainer.appendChild(distImg);
-
-          element.appendChild(chartsContainer);
+          // Charts will be captured using html2canvas below
         }
 
-        // Footer
-        const footer = document.createElement("p");
-        footer.innerText =
-          "This report was generated by EduRank Analytics Suite. For more information, visit the dashboard.";
-        footer.style.textAlign = "center";
-        footer.style.color = "#999";
-        footer.style.marginTop = "20px";
-        footer.style.fontSize = "12px";
-        footer.style.borderTop = "1px solid #ddd";
-        footer.style.paddingTop = "10px";
-        element.appendChild(footer);
+        element.appendChild(page3);
 
-        // Generate PDF
-        const opt = {
-          margin: 10,
-          filename: `Student_Progress_Report_${new Date().getTime()}.pdf`,
-          image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { orientation: "portrait", unit: "mm", format: "a4" },
-        };
+        // Capture charts and generate PDF with proper timing
+        setTimeout(() => {
+          if (marksChartInstance) {
+            try {
+              const chartsWrapper = document.createElement("div");
+              chartsWrapper.style.display = "grid";
+              chartsWrapper.style.gridTemplateColumns = "1fr 1fr";
+              chartsWrapper.style.gap = "20px";
+              chartsWrapper.style.marginBottom = "30px";
 
-        html2pdf().set(opt).from(element).save();
+              // Get and capture bar chart
+              const barChartCanvas = document.getElementById("marksChart");
+              if (barChartCanvas) {
+                const barImg = document.createElement("img");
+                barImg.src = barChartCanvas.toDataURL("image/png");
+                barImg.style.width = "100%";
+                barImg.style.border = "1px solid #ddd";
+                barImg.style.borderRadius = "8px";
+                barImg.style.backgroundColor = "#fff";
+                chartsWrapper.appendChild(barImg);
+              }
+
+              // Get and capture distribution chart
+              const distChartCanvas =
+                document.getElementById("distributionChart");
+              if (distChartCanvas) {
+                const distImg = document.createElement("img");
+                distImg.src = distChartCanvas.toDataURL("image/png");
+                distImg.style.width = "100%";
+                distImg.style.border = "1px solid #ddd";
+                distImg.style.borderRadius = "8px";
+                distImg.style.backgroundColor = "#fff";
+                chartsWrapper.appendChild(distImg);
+              }
+
+              // Add charts to page3
+              page3.appendChild(chartsWrapper);
+            } catch (e) {
+              console.log("Error capturing charts:", e);
+            }
+          }
+
+          // Generate PDF after charts are captured
+          const opt = {
+            margin: 10,
+            filename: `Student_Progress_Report_${new Date().getTime()}.pdf`,
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { orientation: "portrait", unit: "mm", format: "a4" },
+          };
+
+          html2pdf().set(opt).from(element).save();
+        }, 1000);
       }
 
       // --- Data Persistence Functions ---
@@ -1321,7 +1522,7 @@
 
         saveStudentData();
         renderRankTable(students);
-        renderCharts(students, distBuckets);
+        renderCharts(students.slice(0, 10), distBuckets);
       }
 
       function renderRankTable(sortedData) {
@@ -1530,6 +1731,11 @@
           },
         });
       }
+
+      // Initialize dashboard on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        // Keep auth screen visible - don't auto-initialize
+      });
     </script>
   </body>
 </html>
