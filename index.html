@@ -536,8 +536,9 @@
               <tr>
                 <th>Student Name</th>
                 <th>Exam (0-50)</th>
-                <th>Assignment (0-20)</th>
-                <th>Internal (0-20)</th>
+                <th>Assignment (0-10)</th>
+                <th>Internal (0-15)</th>
+                <th>Lab Marks (0-15)</th>
                 <th>Activity (0-10)</th>
                 <th>Attendance %</th>
                 <th>Total</th>
@@ -730,6 +731,7 @@
                 <th>Exam</th>
                 <th>Assignment</th>
                 <th>Internal</th>
+                <th>Lab Marks</th>
                 <th>Activity</th>
                 <th>Total</th>
                 <th>Percentile</th>
@@ -739,7 +741,7 @@
             <tbody id="resultTableBody">
               <tr>
                 <td
-                  colspan="9"
+                  colspan="10"
                   style="color: var(--text-secondary); padding: 30px"
                 >
                   Hydrate registry record fields to run compilation passes.
@@ -853,7 +855,7 @@
         document.getElementById("password").value = "";
         document.getElementById("studentTableBody").innerHTML = "";
         document.getElementById("resultTableBody").innerHTML =
-          `<tr><td colspan="9" style="color:var(--text-secondary); padding:30px;">Hydrate registry record fields to run compilation passes.</td></tr>`;
+          `<tr><td colspan="10" style="color:var(--text-secondary); padding:30px;">Hydrate registry record fields to run compilation passes.</td></tr>`;
 
         document.getElementById("metricTotal").innerText = "0";
         document.getElementById("metricAverage").innerText = "0.0";
@@ -886,8 +888,9 @@
         row.innerHTML = `
                 <td><input type="text" placeholder="Name" style="width:100px" onchange="calculateTotal(this)"></td>
                 <td><input type="number" placeholder="0-50" min="0" max="50" style="width:60px" onchange="calculateTotal(this)"></td>
-                <td><input type="number" placeholder="0-20" min="0" max="20" style="width:60px" onchange="calculateTotal(this)"></td>
-                <td><input type="number" placeholder="0-20" min="0" max="20" style="width:60px" onchange="calculateTotal(this)"></td>
+                <td><input type="number" placeholder="0-10" min="0" max="10" style="width:60px" onchange="calculateTotal(this)"></td>
+                <td><input type="number" placeholder="0-15" min="0" max="15" style="width:60px" onchange="calculateTotal(this)"></td>
+                <td><input type="number" placeholder="0-15" min="0" max="15" style="width:60px" onchange="calculateTotal(this)"></td>
                 <td><input type="number" placeholder="0-10" min="0" max="10" style="width:60px" onchange="calculateTotal(this)"></td>
                 <td><input type="number" placeholder="0-100%" min="0" max="100" style="width:70px" onchange="calculateTotal(this)"></td>
                 <td><span style="font-weight:bold; color:#4CAF50; text-align:center; display:block;">0</span></td>
@@ -901,19 +904,20 @@
         const row = input.parentNode.parentNode;
         const inputs = row.getElementsByTagName("input");
 
-        if (inputs.length >= 6) {
+        if (inputs.length >= 7) {
           const exam = parseInt(inputs[1].value) || 0;
           const assignment = parseInt(inputs[2].value) || 0;
           const internal = parseInt(inputs[3].value) || 0;
-          const activity = parseInt(inputs[4].value) || 0;
-          const attendance = parseInt(inputs[5].value) || 0;
+          const lab = parseInt(inputs[4].value) || 0;
+          const activity = parseInt(inputs[5].value) || 0;
+          const attendance = parseInt(inputs[6].value) || 0;
 
-          const total = exam + assignment + internal + activity;
+          const total = exam + assignment + internal + lab + activity;
           const tds = row.getElementsByTagName("td");
-          tds[6].innerHTML = `<span style="font-weight:bold; color:#4CAF50; text-align:center; display:block;">${total}</span>`;
+          tds[7].innerHTML = `<span style="font-weight:bold; color:#4CAF50; text-align:center; display:block;">${total}</span>`;
 
           // Update status
-          const statusCell = tds[7];
+          const statusCell = tds[8];
           const name = inputs[0].value.trim();
           if (!name) {
             statusCell.innerHTML =
@@ -922,6 +926,7 @@
             exam === 0 &&
             assignment === 0 &&
             internal === 0 &&
+            lab === 0 &&
             activity === 0
           ) {
             statusCell.innerHTML =
@@ -978,14 +983,15 @@
 
         for (let i = 0; i < rows.length; i++) {
           const inputs = rows[i].getElementsByTagName("input");
-          if (inputs.length >= 6) {
+          if (inputs.length >= 7) {
             const name = inputs[0].value.trim();
             const exam = parseInt(inputs[1].value) || 0;
             const assignment = parseInt(inputs[2].value) || 0;
             const internal = parseInt(inputs[3].value) || 0;
-            const activity = parseInt(inputs[4].value) || 0;
-            const attendance = parseInt(inputs[5].value) || 0;
-            const totalMark = exam + assignment + internal + activity;
+            const lab = parseInt(inputs[4].value) || 0;
+            const activity = parseInt(inputs[5].value) || 0;
+            const attendance = parseInt(inputs[6].value) || 0;
+            const totalMark = exam + assignment + internal + lab + activity;
 
             if (name && totalMark > 0) {
               tableData.push({
@@ -993,6 +999,7 @@
                 exam,
                 assignment,
                 internal,
+                lab,
                 activity,
                 attendance,
                 totalMark,
@@ -1134,6 +1141,7 @@
           "Exam",
           "Assignment",
           "Internal",
+          "Lab Marks",
           "Activity",
           "Attendance",
           "Total",
@@ -1177,6 +1185,7 @@
             student.exam,
             student.assignment,
             student.internal,
+            student.lab,
             student.activity,
             student.attendance,
             student.totalMark,
@@ -1344,14 +1353,15 @@
         let students = [];
         for (let i = 0; i < rows.length; i++) {
           const inputs = rows[i].getElementsByTagName("input");
-          if (inputs.length >= 6) {
+          if (inputs.length >= 7) {
             students.push({
               name: inputs[0].value,
               exam: inputs[1].value,
               assignment: inputs[2].value,
               internal: inputs[3].value,
-              activity: inputs[4].value,
-              attendance: inputs[5].value,
+              lab: inputs[4].value,
+              activity: inputs[5].value,
+              attendance: inputs[6].value,
             });
           }
         }
@@ -1371,8 +1381,9 @@
             inputs[1].value = student.exam;
             inputs[2].value = student.assignment;
             inputs[3].value = student.internal;
-            inputs[4].value = student.activity;
-            inputs[5].value = student.attendance;
+            inputs[4].value = student.lab;
+            inputs[5].value = student.activity;
+            inputs[6].value = student.attendance;
             calculateTotal(inputs[0]);
           });
         }
@@ -1451,15 +1462,16 @@
 
         for (let i = 0; i < rows.length; i++) {
           const inputs = rows[i].getElementsByTagName("input");
-          if (inputs.length >= 6) {
+          if (inputs.length >= 7) {
             const name = inputs[0].value.trim();
             const exam = parseInt(inputs[1].value) || 0;
             const assignment = parseInt(inputs[2].value) || 0;
             const internal = parseInt(inputs[3].value) || 0;
-            const activity = parseInt(inputs[4].value) || 0;
-            const attendance = parseInt(inputs[5].value) || 0;
+            const lab = parseInt(inputs[4].value) || 0;
+            const activity = parseInt(inputs[5].value) || 0;
+            const attendance = parseInt(inputs[6].value) || 0;
 
-            const totalMarks = exam + assignment + internal + activity;
+            const totalMarks = exam + assignment + internal + lab + activity;
 
             if (name && totalMarks > 0 && attendance >= 0) {
               students.push({
@@ -1467,6 +1479,7 @@
                 exam,
                 assignment,
                 internal,
+                lab,
                 activity,
                 attendance,
                 totalMarks,
@@ -1548,11 +1561,12 @@
           row.insertCell(2).innerHTML = student.exam;
           row.insertCell(3).innerHTML = student.assignment;
           row.insertCell(4).innerHTML = student.internal;
-          row.insertCell(5).innerHTML = student.activity;
-          row.insertCell(6).innerHTML =
+          row.insertCell(5).innerHTML = student.lab;
+          row.insertCell(6).innerHTML = student.activity;
+          row.insertCell(7).innerHTML =
             `<b style="color:#4CAF50;">${student.totalMarks}</b>`;
-          row.insertCell(7).innerHTML = `${student.percentile}th`;
-          row.insertCell(8).innerHTML = statusBand;
+          row.insertCell(8).innerHTML = `${student.percentile}th`;
+          row.insertCell(9).innerHTML = statusBand;
         });
       }
 
@@ -1561,7 +1575,7 @@
         if (confirm("Are you sure you want to clear all student data?")) {
           document.getElementById("studentTableBody").innerHTML = "";
           document.getElementById("resultTableBody").innerHTML =
-            `<tr><td colspan="9" style="color:var(--text-secondary); padding:30px;">Hydrate registry record fields to run compilation passes.</td></tr>`;
+            `<tr><td colspan="10" style="color:var(--text-secondary); padding:30px;">Hydrate registry record fields to run compilation passes.</td></tr>`;
           localStorage.removeItem("studentData");
           document.getElementById("metricTotal").innerText = "0";
           document.getElementById("metricAverage").innerText = "0.0";
@@ -1597,6 +1611,7 @@
                 if (parts.length >= 4) inputs[3].value = parts[3].trim() || 0;
                 if (parts.length >= 5) inputs[4].value = parts[4].trim() || 0;
                 if (parts.length >= 6) inputs[5].value = parts[5].trim() || 0;
+                if (parts.length >= 7) inputs[6].value = parts[6].trim() || 0;
                 calculateTotal(inputs[0]);
                 imported++;
               }
@@ -1638,7 +1653,7 @@
         document.getElementById("modalGrade").style.color =
           student.totalMarks >= 50 ? "var(--primary)" : "var(--danger)";
         document.getElementById("modalComment").innerText =
-          `"${comment}"\n\nBreakdown: Exam: ${student.exam}/50 • Assignment: ${student.assignment}/20 • Internal: ${student.internal}/20 • Activity: ${student.activity}/10`;
+          `"${comment}"\n\nBreakdown: Exam: ${student.exam}/50 • Assignment: ${student.assignment}/10 • Internal: ${student.internal}/15 • Lab: ${student.lab}/15 • Activity: ${student.activity}/10`;
         document.getElementById("reportModal").style.display = "flex";
       }
 
