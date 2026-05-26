@@ -435,6 +435,59 @@
               required
             />
           </div>
+          <div class="input-group">
+            <i class="fa-solid fa-book"></i>
+            <select
+              id="subject"
+              required
+              style="
+                width: 100%;
+                padding: 14px 14px 14px 45px;
+                border: 2px solid var(--border);
+                background: rgba(255, 255, 255, 0.8);
+                color: var(--text);
+                border-radius: 10px;
+                font-size: 15px;
+                outline: none;
+                cursor: pointer;
+              "
+            >
+              <option value="" disabled selected>Select Subject Name</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="ADA">ADA</option>
+              <option value="Biology">Biology</option>
+              <option value="DBMS">DBMS</option>
+              <option value="MC">MC</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <select
+              id="semester"
+              required
+              style="
+                width: 100%;
+                padding: 14px 14px 14px 45px;
+                border: 2px solid var(--border);
+                background: rgba(255, 255, 255, 0.8);
+                color: var(--text);
+                border-radius: 10px;
+                font-size: 15px;
+                outline: none;
+                cursor: pointer;
+              "
+            >
+              <option value="" disabled selected>Select Semester</option>
+              <option value="1st sem">1st sem</option>
+              <option value="2nd sem">2nd sem</option>
+              <option value="3rd sem">3rd sem</option>
+              <option value="4th sem">4th sem</option>
+              <option value="5th sem">5th sem</option>
+              <option value="6th sem">6th sem</option>
+              <option value="7th sem">7th sem</option>
+              <option value="8th sem">8th sem</option>
+            </select>
+          </div>
           <button type="submit">
             <span>Enter Dashboard</span> <i class="fa-solid fa-arrow-right"></i>
           </button>
@@ -827,7 +880,9 @@
         e.preventDefault();
         const user = document.getElementById("username").value.trim();
         const pass = document.getElementById("password").value.trim();
-        if (user && pass) {
+        const subject = document.getElementById("subject").value.trim();
+        const semester = document.getElementById("semester").value.trim();
+        if (user && pass && subject && semester) {
           document.getElementById("displayAdminName").innerText = user;
           document.getElementById("authScreen").style.display = "none";
           document.getElementById("dashboardScreen").style.display = "block";
@@ -835,6 +890,10 @@
           // Set dark theme
           document.body.setAttribute("data-theme", "dark");
           document.getElementById("themeIcon").className = "fa-solid fa-sun";
+
+          // Store selected subject and semester
+          localStorage.setItem("selectedSubject", subject);
+          localStorage.setItem("selectedSemester", semester);
 
           // Load saved data or spawn entry slots on startup
           const saved = localStorage.getItem("studentData");
@@ -853,6 +912,8 @@
       function handleLogout() {
         document.getElementById("username").value = "";
         document.getElementById("password").value = "";
+        document.getElementById("subject").value = "";
+        document.getElementById("semester").value = "";
         document.getElementById("studentTableBody").innerHTML = "";
         document.getElementById("resultTableBody").innerHTML =
           `<tr><td colspan="10" style="color:var(--text-secondary); padding:30px;">Hydrate registry record fields to run compilation passes.</td></tr>`;
